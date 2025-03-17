@@ -1,4 +1,5 @@
-﻿using ClsCandidate.IService;
+﻿using ClsCandidate.Service;
+using ClsData.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace IERT_Pryag.Controllers
@@ -7,9 +8,10 @@ namespace IERT_Pryag.Controllers
     [ApiController]
     public class CandidateController : ControllerBase
     {
-        protected readonly IRegister _register;
+        protected readonly Register _register;
 
-        public CandidateController(IRegister register)
+        public CandidateController(Register register)
+
         {
             _register = register;
         }
@@ -18,6 +20,14 @@ namespace IERT_Pryag.Controllers
         {
             var user = await _register.getall();
             return Ok(user);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Post([FromBody] Basic_details basic)
+        {
+            var response = await _register.InsertBasic(basic);
+            return StatusCode(response.Status, response);
+
         }
     }
 }

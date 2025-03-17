@@ -14,9 +14,14 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.Extensions.Identity.Core" Version="9.0.3" />
+    <PackageReference Include="Moq.EntityFrameworkCore" Version="9.0.0.1" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="7.3.1" />
+    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="7.3.1" />
+    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="7.3.1" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\clsCommon\clsCommon\clsCommon.csproj" />
     <ProjectReference Include="..\ClsCandidate\ClsCandidate.csproj" />
     <ProjectReference Include="..\ClsData\ClsData.csproj" />
   </ItemGroup>
