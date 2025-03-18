@@ -2,12 +2,10 @@ using ClsCandidate.IService;
 using ClsCandidate.Repository;
 using ClsCandidate.Service;
 using ClsData.AppDbContext;
-
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
-
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddSession(options =>
@@ -51,18 +49,15 @@ builder.Services.AddSwaggerGen(option =>
         }
     );
 });
-builder.Services.AddScoped<IRegister, Candidate_repo>();
+builder.Services.AddScoped(typeof(IRegister<>), typeof(Candidate_repo<>));
 builder.Services.AddScoped<Register>();
 builder.Services.AddEndpointsApiExplorer();
 var app = builder.Build();
 app.MapFallbackToFile("/index.html");
 app.UseHttpsRedirection();
 app.UseRouting();
-
 app.UseAuthorization();
-
 app.MapStaticAssets();
-
 app.UseSwagger();
 app.UseSwaggerUI(c =>
 {
@@ -73,6 +68,4 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}")
     .WithStaticAssets();
-
-
 app.Run();

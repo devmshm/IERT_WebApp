@@ -1,12 +1,10 @@
-﻿using ClsData.Models;
-using Microsoft.AspNetCore.Mvc;
-
-namespace ClsCandidate.IService
+﻿namespace ClsCandidate.IService
 {
-    public interface IRegister
+    public interface IRegister<T> where T : class
     {
-        Task<bool> ExistsAsync(string email);
-        Task<List<Basic_details>> getall();
-        Task InsertBasic([FromBody] Basic_details basic);
+        Task<bool> ExistsAsync(Func<T, bool> predicate);
+        Task<List<T>> GetAll();
+        Task InsertBasic(T basic);
+        Task InsertAddress(T address);
     }
 }

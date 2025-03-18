@@ -1,32 +1,36 @@
 ﻿using ClsCandidate.IService;
 using ClsData.AppDbContext;
-using ClsData.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace ClsCandidate.Repository
 {
-    public class Candidate_repo : IRegister
+    public class Candidate_repo<T> : IRegister<T> where T : class
     {
         protected readonly Iert_DbContext _dbContext;
+        private readonly DbSet<T> _dbSet;
         public Candidate_repo(Iert_DbContext dbContext)
         {
             _dbContext = dbContext;
+            _dbSet = _dbContext.Set<T>();
         }
-        public async Task<List<Basic_details>> getall()
+        public async Task<List<T>> GetAll()
         {
-            var user = await _dbContext.basic_Details.ToListAsync();
+            var user = await _dbSet.ToListAsync();
             return user;
         }
-        public async Task<bool> ExistsAsync(string email)
+        public async Task<bool> ExistsAsync(Func<T, bool> predicate)
         {
-            return await _dbContext.basic_Details.AnyAsync(p => p.email == email);
+            return await _dbSet.AnyAsync(e => predicate(e));
         }
-
-        public async Task InsertBasic(Basic_details basic)
+        public async Task InsertBasic(T basic)
         {
-            _dbContext.basic_Details.Add(basic);
+            _dbSet.Add(basic);
             await _dbContext.SaveChangesAsync();
         }
-
+        public async Task InsertAddress(T address)
+        {
+            _dbSet.Add(address);
+            await _dbContext.SaveChangesAsync();
+        }
     }
 }

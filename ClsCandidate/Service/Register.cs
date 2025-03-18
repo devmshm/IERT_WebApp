@@ -6,14 +6,21 @@ namespace ClsCandidate.Service
 {
     public class Register
     {
-        protected readonly IRegister _register;
-        public Register(IRegister register)
+        protected readonly IRegister<Basic_details> _register;
+        protected readonly IRegister<Address> _address;
+        public Register(IRegister<Basic_details> register, IRegister<Address> address)
         {
             _register = register;
+            _address = address;
         }
         public async Task<List<Basic_details>> getall()
         {
-            var user = await _register.getall();
+            var user = await _register.GetAll();
+            return user;
+        }
+        public async Task<List<Address>> getadd()
+        {
+            var user = await _address.GetAll();
             return user;
         }
         public async Task<Response> InsertBasic(Basic_details basic)
@@ -22,7 +29,8 @@ namespace ClsCandidate.Service
             {
                 return new Response { Message = "Email cannot be null or empty.", Status = 400 };
             }
-            bool exists = await _register.ExistsAsync(basic.email);
+            bool exists = await _register.ExistsAsync(p => p.email == basic.email);
+
             if (exists)
             {
                 return new Response { Message = "Already Exists", Status = 200 };
@@ -41,7 +49,6 @@ namespace ClsCandidate.Service
                 Middle_Name = basic.Middle_Name,
             };
             await _register.InsertBasic(user);
-
             return new Response { Message = "Registration Successful", Status = 200 };
         }
     }
