@@ -8,19 +8,28 @@ namespace ClsCandidate.Service
     {
         protected readonly IRegister<Basic_details> _register;
         protected readonly IRegister<Address> _address;
-        public Register(IRegister<Basic_details> register, IRegister<Address> address)
+        protected readonly IRegister<Personal_details> _personal;
+        public Register(IRegister<Basic_details> register, IRegister<Address> address,
+            IRegister<Personal_details> personal)
         {
             _register = register;
             _address = address;
+            _personal = personal;
         }
-        public async Task<List<Basic_details>> getall()
+
+        public async Task<List<Basic_details>> getall(string appid)
         {
-            var user = await _register.GetAll();
+            var user = await _register.GetAll(appid);
             return user;
         }
-        public async Task<List<Address>> getadd()
+        public async Task<List<Personal_details>> Get_Personal(string appid)
         {
-            var user = await _address.GetAll();
+            var user = await _personal.GetAll(appid);
+            return user;
+        }
+        public async Task<List<Address>> getadd(string appid)
+        {
+            var user = await _address.GetAll(appid);
             return user;
         }
         public async Task<Response> InsertBasic(Basic_details basic)

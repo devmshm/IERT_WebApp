@@ -13,10 +13,11 @@ namespace ClsCandidate.Repository
             _dbContext = dbContext;
             _dbSet = _dbContext.Set<T>();
         }
-        public async Task<List<T>> GetAll()
+        public async Task<List<T>> GetAll(string appid)
         {
-            var user = await _dbSet.ToListAsync();
-            return user;
+            return await _dbSet.Where(
+                x => EF.Property<string>(x, "Id") == appid).
+                ToListAsync();
         }
         public async Task<bool> ExistsAsync(Func<T, bool> predicate)
         {
@@ -32,5 +33,7 @@ namespace ClsCandidate.Repository
             _dbSet.Add(address);
             await _dbContext.SaveChangesAsync();
         }
+
+
     }
 }

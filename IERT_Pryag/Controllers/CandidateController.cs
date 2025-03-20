@@ -15,16 +15,23 @@ namespace IERT_Pryag.Controllers
         }
 
         [HttpGet("Get_Basic")]
-        public async Task<IActionResult> Get()
+        public async Task<IActionResult> Get(string appid)
         {
-            var user = await _register.getall();
+            var user = await _register.getall(appid);
+            return Ok(user);
+        }
+
+        [HttpGet("Get_Personal")]
+        public async Task<IActionResult> Getpersonal(string appid)
+        {
+            var user = await _register.Get_Personal(appid);
             return Ok(user);
         }
 
         [HttpGet("Get_Address")]
-        public async Task<IActionResult> Getadd()
+        public async Task<IActionResult> Getadd(string appid)
         {
-            var user = await _register.getadd();
+            var user = await _register.getadd(appid);
             return Ok(user);
         }
 
