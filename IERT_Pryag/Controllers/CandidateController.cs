@@ -14,21 +14,21 @@ namespace IERT_Pryag.Controllers
             _register = register;
         }
 
-        [HttpGet("Get Basic")]
+        [HttpGet("Get_Basic")]
         public async Task<IActionResult> Get()
         {
             var user = await _register.getall();
             return Ok(user);
         }
 
-        [HttpGet("Get Address")]
+        [HttpGet("Get_Address")]
         public async Task<IActionResult> Getadd()
         {
             var user = await _register.getadd();
             return Ok(user);
         }
 
-        [HttpPost("Add Basic")]
+        [HttpPost("Add_Basic")]
         public async Task<IActionResult> Post([FromBody] Basic_details basic)
         {
             var response = await _register.InsertBasic(basic);
